@@ -28,7 +28,7 @@ def repos(external = True, repo_mapping = {}):
             git_repository,
             name = "com_github_3rdparty_bazel_rules_openssl",
             remote = "https://github.com/3rdparty/bazel-rules-openssl",
-            commit = "f425c04e5d90eae38ad023e095d3108439c05875",
-            shallow_since = "1631192327 +0200",
+            commit = "940b267da9795cbf04edeca21f0d9c3a8dfdd58c",
+            shallow_since = "1631193252 +0200",
             repo_mapping = repo_mapping,
         )
