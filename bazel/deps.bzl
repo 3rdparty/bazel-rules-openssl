@@ -2,7 +2,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
 
-def deps():
+def deps(repo_mapping = {}):
     rules_foreign_cc_dependencies()
 
     maybe(
@@ -16,6 +16,7 @@ def deps():
             "https://www.openssl.org/source/openssl-1.1.1k.tar.gz",
             "https://github.com/openssl/openssl/archive/OpenSSL_1_1_1k.tar.gz",
         ],
+        repo_mapping = repo_mapping,
     )
 
     maybe(
@@ -28,6 +29,7 @@ def deps():
             "https://mirror.bazel.build/www.nasm.us/pub/nasm/releasebuilds/2.15.05/win64/nasm-2.15.05-win64.zip",
             "https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/win64/nasm-2.15.05-win64.zip",
         ],
+        repo_mapping = repo_mapping,
     )
 
     maybe(
@@ -39,5 +41,5 @@ def deps():
             "https://mirror.bazel.build/strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit.zip",
             "https://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit.zip",
         ],
+        repo_mapping = repo_mapping,
     )
-    
