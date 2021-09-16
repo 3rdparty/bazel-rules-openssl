@@ -26,9 +26,9 @@ MAKE_TARGETS = [
 ]
 
 config_setting(
-    name = "msvc_compiler",
+    name = "clang_cl_compiler",
     flag_values = {
-        "@bazel_tools//tools/cpp:compiler": "msvc-cl",
+        "@bazel_tools//tools/cpp:compiler": "clang-cl",
     },
     visibility = ["//visibility:public"],
 )
@@ -36,14 +36,14 @@ config_setting(
 alias(
     name = "openssl",
     actual = select({
-        ":msvc_compiler": "openssl_msvc",
+        ":clang_cl_compiler": "openssl_clang_cl",
         "//conditions:default": "openssl_default",
     }),
     visibility = ["//visibility:public"],
 )
 
 configure_make_variant(
-    name = "openssl_msvc",
+    name = "openssl_clang_cl",
     build_data = [
         "@nasm//:nasm",
         "@perl//:perl",
@@ -51,16 +51,23 @@ configure_make_variant(
     configure_command = "Configure",
     configure_in_place = True,
     configure_options = CONFIGURE_OPTIONS + [
+        # Target
         "VC-WIN64A",
-        # Unset Microsoft Assembler (MASM) flags set by built-in MSVC
-        # toolchain, as NASM is used to build OpenSSL rather than MASM.
-        "ASFLAGS=\" \"",
+        # Override environment variables set by higher-level Bazel targets.
+        # Most importantly, set the C++ compiler to be `cl` (as opposed to 
+        #`clang-cl`). We're unsure whether OpenSSL can be built using
+        # clang-cl. 
+        # TODO(#3): Investigate whether OpenSSL can
+        # build with clang-cl.
+        "CC=\"cl\"",
+        "ASFLAGS=\"-g\"",
+        "CFLAGS=\"/W3 /wd4090 /nologo /O2 /Zi /MP\"",
+        "LDFLAGS=\"/nologo /debug /Zi\"",
+        "ARFLAGS=\"/nologo\"",
+        "LD=\"link\"",
     ],
     configure_prefix = "$PERL",
     env = {
-        # The Zi flag must be set otherwise OpenSSL fails to build due
-        # to missing .pdb files.
-        "CFLAGS": "-Zi",
         "PATH": "$(dirname $(execpath @nasm//:nasm)):$PATH",
         "PERL": "$(execpath @perl//:perl)",
     },
