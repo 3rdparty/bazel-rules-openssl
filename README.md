@@ -40,4 +40,4 @@ def deps():
 
 | openssl | Copy `bazel/repos.bzl` from: |
 | :---: | :--------------------------: |
-| 1.1.1k | [6c19265](https://github.com/3rdparty/bazel-rules-openssl/tree/6c192654327727087113dc7f87f6322b6ed06ce5) |
+| 1.1.1k | [130bda8](https://github.com/3rdparty/bazel-rules-openssl/tree/130bda8037113ea4295fb35e0bd502d7c44727eb) |
